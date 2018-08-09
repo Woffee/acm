@@ -1,0 +1,16 @@
+15
+insert hello
+insert hehe
+search h
+delete he
+search hello
+insert hell
+search hello
+search hell
+delete hel
+search he
+insert ahell
+insert ahe
+delete ahe
+delete ahel
+search ahe

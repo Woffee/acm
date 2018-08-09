@@ -1,0 +1,53 @@
+#include<iostream>
+using namespace std;
+struct Wooden{
+	int length;
+	int weight;
+}sticks[5001];
+bool flag[5001];
+int cmp(const void *a,const void *b)
+{
+	struct Wooden *c=(Wooden *)a;
+	struct Wooden *d=(Wooden *)b;
+	if(c->length!=d->length)
+		return c->length-d->length;
+	else
+		return c->weight-d->weight;
+}
+int main()
+{
+	int T,n;
+	int i,j;
+	int minutes,m;
+	cin>>T;
+	while(T--)
+	{
+		minutes=0;
+		memset(flag,false,sizeof(flag));
+		cin>>n;
+		for(i=0;i<n;++i)
+			cin>>sticks[i].length>>sticks[i].weight;
+		qsort(sticks,n,sizeof(sticks[0]),cmp);
+		for(i=0;i<n;++i)
+		{
+			if(flag[i])	continue;
+			m=sticks[i].weight;
+			for(j=i+1;j<n;++j)
+			{
+				if(flag[j])	continue;
+				if(sticks[j].weight>=m)
+				{
+					flag[j]=true;
+					m=sticks[j].weight;
+				}
+			}
+		}
+		for(i=0;i<n;++i)
+		{
+			if(!flag[i])
+				minutes++;
+		}
+		cout<<minutes<<endl;
+	}
+	return 0;
+}

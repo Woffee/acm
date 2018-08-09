@@ -1,0 +1,80 @@
+#include<iostream>
+#include<string>
+using namespace std;
+
+struct Node
+{
+	bool isend;
+	int num;//记录前缀个数
+	int child[26];
+};
+int root;//代表 树的根
+Node all[1000001];//如果数据量 特别大 则需要动态开辟 空间
+int loc;//代表树中所有节点的个数
+
+//查找
+int find(const char *str)
+{
+	int p=root;int len=strlen(str);//该字符串的长度
+	for(int i=0;i<len;i++)
+	{
+		if(!all[p].child[str[i]-'a'])//如果不存在该字符 则查找失败。
+			return false;
+		p=all[p].child[str[i]-'a'];
+	}
+	return all[p].num;
+}
+
+//添加
+void insert(char *str)
+{
+	int p=root;int len=strlen(str);
+	for(int i=0;i<len;i++)
+	{
+		if(!all[p].child[str[i]-'a'])
+		{
+			all[p].child[str[i]-'a']=++loc;
+			all[p].isend=false;
+			memset(all[loc].child,0,sizeof(all[loc].child));
+			
+		}
+		all[p].num++;//记录经过 该节点 的字符串个数
+		p=all[p].child[str[i]-'a'];
+	}
+	all[p].num++;
+
+	all[p].isend=true;//该字符串结束
+}
+
+//输出
+//void print(int r,string str)
+//{
+//	for(int i=0;i<26;i++)
+//	{
+//		if(!all[r].child[i])
+//			continue;
+//		if(all[all[r].child[i]].isend)
+//			cout<<str+char(i+'a')<<endl;
+//		print(all[r].child[i],str+char(i+'a'));
+//	}
+//}
+
+int main()
+{
+	loc=1;
+	memset(all[1].child,0,sizeof(all[1].child));
+	root=1;char str[11];
+	while(gets(str))
+	{
+		if(strlen(str)==0)
+			break;
+		insert(str);
+	}
+	/*string s;
+	print(1,s);*/
+	while(gets(str)!=NULL)
+	{
+		
+		printf("%d\n",find(str));
+	}
+}

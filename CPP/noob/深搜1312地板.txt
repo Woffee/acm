@@ -1,0 +1,58 @@
+#include <iostream>
+using namespace std;
+
+int a[101][101];//记录矩形方格对应的是水还是陆地
+int sum=0,n,m;    //sum记录湖的个数n 矩形地的行数m矩形地的列数
+int flag[101][101];//标记每个方格是否已经被访问过
+int d[4][2]={{1,0},{0,1},{-1,0},{0,-1}};
+
+bool check(int x,int y)
+{    
+    if(x>0&&x<=m&&y>0&&y<=n) 
+        return 1;      
+    return 0;    
+}
+
+//以一个方格开始深度优先搜索
+void dfs(int x,int y)
+{     
+    
+    if(flag[x][y]||!a[x][y])//点已经访问或者是陆地则停止访问   
+        return ;  
+    sum++;
+    flag[x][y]=1;           //标记当前结点已经访问
+    for(int i=0;i<4;i++)    //对当前方格的个邻接方格进行深搜   
+        if(check(x+d[i][0],y+d[i][1])) 
+            dfs(x+d[i][0],y+d[i][1]);
+}
+
+
+int main()
+{        
+    //freopen("in.txt","r",stdin);
+    int i,j; 
+    char c;    
+    while(cin>>n>>m)
+    {   
+        if(n==0&&m==0)
+            break;
+        memset(flag,0,sizeof(flag));  //全部方格标记为没有访问
+        memset(a,0,sizeof(a));         //方格全部标记为陆地
+        sum=0;                         //初始化湖的个数为
+        for(i=1;i<=m;i++)
+            for(j=1;j<=n;j++)
+            {                            
+                cin>>c;                
+                if(c=='.'||c=='@')a[i][j]=1; 
+                if(c=='@')
+                    a[i][j]=2;
+            }
+        
+        for(i=1;i<=m;i++)    
+            for(j=1;j<=n;j++)     //对是水且未被访问过的方格进行深搜
+                    if(a[i][j]==2) //每次访问访问一个连通分支即一个湖
+                        dfs(i,j);    
+            cout<<sum<<endl;               
+    }          
+    return 0;  
+}

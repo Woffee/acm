@@ -1,0 +1,128 @@
+
+问题：判断输入的括号序列是否合法。
+      如   []([])   合法
+      （][)   不合法
+
+#include <iostream>
+using namespace std;
+#define STACK_INIT_SIZE 100
+#define STACKINCREMENT 10
+
+typedef struct{
+	int *base;
+	int *top;
+	int stacksize;
+}SqStack;
+
+int InitStack(SqStack &S)
+{
+	S.base=(int*)malloc(STACK_INIT_SIZE*sizeof(char));
+	if(!S.base)
+		exit(-1);
+	S.top=S.base;
+	S.stacksize=STACK_INIT_SIZE;
+	return 0;
+}
+
+int GetTop(SqStack S)
+{
+	char e;
+	if(S.top==S.base)
+		return -1;
+	e=*(S.top-1);
+	return e;
+}
+
+int Push(SqStack &S,char e)
+{
+	if(S.top-S.base>=S.stacksize)
+	{
+		S.base=(int *)realloc(S.base,(S.stacksize+STACKINCREMENT)*sizeof(char));
+		if(!S.base)
+			exit(-1);
+		S.top=S.base+S.stacksize;
+		S.stacksize+=STACKINCREMENT;
+	}
+	*S.top++ =e;
+	return 0;
+}
+
+int Pop(SqStack &S)
+{
+	if(S.top==S.base)
+		return -1;
+    --S.top;
+	return 0;
+}
+
+int main()
+{
+	freopen("in.txt","r",stdin);
+	SqStack A;
+	InitStack(A);
+	int num=0;
+	char ch;
+    int arr[20];
+	memset(arr,0,sizeof(arr));
+	while(scanf("%c",&ch)!=EOF)
+	{
+		num++;
+		if(ch=='['||ch=='(')
+		{
+		     Push(A,ch);
+			 arr[A.top-A.base]=num;
+		}
+		if(ch==']')
+		{
+			if(GetTop(A)=='[')
+			{
+		    	cout<<"括号"<<num<<"与括号"<<arr[A.top-A.base]<<"配对"<<endl;
+				Pop(A);
+			}
+			else
+			{
+			//	cout<<"括号"<<num<<"与括号"<<arr[A.top-A.base]<<"不配对"<<endl;
+				cout<<"此括号序列不合法！"<<endl;
+				return -1;
+			}
+		}
+		else if(ch==')')
+		{
+			if(GetTop(A)=='(')
+			{
+				cout<<"括号"<<num<<"与括号"<<arr[A.top-A.base]<<"配对"<<endl;
+			    Pop(A);	
+			}
+			else
+			{
+			//	cout<<"括号"<<num<<"与括号"<<arr[A.top-A.base]<<"不配对"<<endl;
+				cout<<"此括号序列不合法！"<<endl;
+				return -1;
+			}
+
+		}
+	}
+	if(A.top==A.base)
+    	cout<<"括号序列合法！"<<endl;
+	else
+	{
+		cout<<"没有括号与"<<arr[A.top-A.base]<<"配对"<<endl;
+		cout<<"括号序列不合法！"<<endl;
+	}
+	return 0;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,54 @@
+#include<stdio.h>
+int parent[1000]; //城镇编号
+int find(int x)   //find函数，寻找x的代表
+{
+	if(x!=parent[x])
+		parent[x]=find(parent[x]);
+	return parent[x];
+}
+
+int main()
+{
+	freopen("out.txt","w",stdout);
+	int n,i,j,t,x,y,temp,w;//n为城市数，t为道路数，x、y为接下来的t条道路的起点和终点
+	while (scanf("%d",&n)&&n)
+	{
+		for(i=0;i<=n;i++) 
+			parent[i]=i;
+		scanf("%d",&t);
+	    for(i=0;i<t;i++)
+	    {
+		    scanf("%d%d",&x,&y);
+	        x=find(x);
+			y=find(y);  
+		    if(x!=y)   //x与y的代表不一样，说明x（的代表）所代表的集合与y（的代表）所代表的集合为两个不同的集合，此时需要合并两个集合
+		    {
+                if(x>y) 
+				{
+					temp=x;
+					x=y;
+					y=temp;
+				}
+			   // parent[y]=find(x);
+				parent[y]=x;//将小集合并入大集合
+			}
+		}
+		w=0;//统计集合个数
+		/*for(i=1;i<=n;i++) 
+		{
+	     	for(j=0;j<i;j++)
+				if(parent[j]==parent[i])
+				{
+					break;
+				}
+			if(j==i) w++;
+		}*/
+		for(i=1;i<=n;i++)
+		{
+			if(i==parent[i])
+				w++;
+		}
+	    printf("%d\n",w-1);
+	}
+
+}

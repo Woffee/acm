@@ -1,0 +1,165 @@
+﻿==== 河南大学2014ACM训练140823 ====
+
+Start Time : 2014-08-23 09:00:00    End Time : 2014-08-23 14:00:00
+Contest Status : Running
+Current System Time : 2014-08-23 09:03:00
+
+Solved	Problem ID	Title	Ratio(Accepted / Submitted)
+1001	变形课	 0.00%(0/0)
+1002	畅通工程再续	 0.00%(0/0)
+1003	Free DIY Tour	 0.00%(0/0)
+1004	迷宫城堡	 0.00%(0/0)
+1005	最少拦截系统	 0.00%(0/0)
+
+
+
+===== HENU第六周练习题目 =====
+
+Start Time : 2014-08-20 09:10:00    End Time : 2014-08-27 09:10:00
+Contest Status : Running
+Current System Time : 2014-08-20 14:56:10
+
+Solved	Problem ID	Title	Ratio(Accepted / Submitted)
+1001	确定比赛名次	 57.14%(12/21)
+1002	畅通工程	 100.00%(12/12)
+1003	还是畅通工程	 60.00%(9/15)
+1004	六度分离	 25.00%(2/8)
+1005	最短路	 50.00%(3/6)
+1006	最短路径问题	 0.00%(0/0)
+1007	迷宫城堡	 0.00%(0/0)
+1008	Intelligence System	 0.00%(0/0)
+
+
+
+
+===== 河南大学2014ACM训练140816 =====
+	   动态规划
+
+Start Time : 2014-08-16 09:00:00    End Time : 2014-08-16 14:00:00
+Contest Status : Running
+Current System Time : 2014-08-16 09:52:22
+
+Solved	Problem ID	Title	Ratio(Accepted / Submitted)
+1001	ACboy needs your help	 80.00%(8/10)
+1002	Doing Homework	 0.00%(0/0)
+1003	Constructing Roads In JGShining's Kingdom	 100.00%(1/1)
+1004	The more, The Better	 0.00%(0/0)
+
+
+===== HENU第五周练习题目 =====
+
+Start Time : 2014-08-11 00:00:00    End Time : 2014-08-16 00:00:00
+Contest Status : Running
+Current System Time : 2014-08-11 09:41:39
+
+Problem ID	Title	Ratio(Accepted / Submitted)
+1001	Bone Collector		 0.00%(0/0)
+1002	饭卡			 0.00%(0/0)
+1003	Piggy-Bank		 0.00%(0/0)
+1004	钱币兑换问题		 0.00%(0/0)
+1005	Coins			 0.00%(0/0)
+1006	Dividing		 0.00%(0/0)
+1007	Watch The Movie	         0.00%(0/0)
+1008	The more, The Better	 0.00%(0/0)
+1009	最少拦截系统	         0.00%(0/0)
+1010	最大连续子序列	         0.00%(0/0)
+1011	Common Subsequence	 0.00%(0/0)
+1012	God of War	         0.00%(0/0)
+1013	Tourism Planning	 0.00%(0/0)
+1014	Find Metal Mineral	 0.00%(0/0)
+1015	Matrix	                 0.00%(0/0)
+
+
+
+===== HENU第四周练习题目 =====
+
+Start Time : 2014-07-28 19:00:00    End Time : 2014-08-04 19:00:00
+Contest Status : Running
+Current System Time : 2014-07-29 08:43:52 
+Solved Problem ID Title Ratio(Accepted / Submitted) 
+
+ 1001 统计难题                              40.00%(2/5) 
+ 1002 Color the ball                       100.00%(2/2) 
+ 1003 I Hate It                            100.00%(3/3) 
+ 1004 敌兵布阵                              33.33%(2/6) 
+
+
+
+==== 河南大学2014ACM训练140726 ====
+
+Start Time : 2014-07-26 09:00:00    End Time : 2014-07-26 14:00:00
+Contest Status : Running
+Current System Time : 2014-07-26 09:26:13 
+Solved Problem ID Title Ratio(Accepted / Submitted) 
+
+ 1001 Wolf and Rabbit 100.00%(3/3) 
+ 1002 Buy the Ticket 0.00%(0/0) 
+ 1003 改革春风吹满地 100.00%(2/2) 
+ 1004 A/B 0.00%(0/0) 
+ 1005 最大三角形 0.00%(0/0) 
+ 1006 化学方程式 0.00%(0/0) 
+ 1007 Game of Connections 0.00%(0/0) 
+
+
+
+===== HENU第三周练习题目 =====
+
+Start Time : 2014-07-21 15:30:00    End Time : 2014-07-28 15:30:00
+Contest Status : Running
+Current System Time : 2014-07-22 17:23:41 
+Solved Problem ID Title Ratio(Accepted / Submitted) 
+
+ 1001 F(N) 35.56%(16/45) 
+ 1002 Eddy's research I 59.38%(19/32) 
+ 1003 RSA 100.00%(9/9) 
+ 1004 Ignatius and the Princess III 100.00%(23/23) 
+ 1005 The Balance 44.44%(8/18) 
+ 1006 Holding Bin-Laden Captive! 60.87%(14/23) 
+ 1007 Big Event in HDU 66.67%(6/9) 
+ 1008 Square Coins 94.12%(16/17) 
+ 1009 Coin Change 38.46%(5/13) 
+ 1010 Fruit 62.50%(5/8) 
+
+
+==== 河南大学2014ACM训练140719 ====
+
+Start Time : 2014-07-20 09:55:00    End Time : 2014-07-27 09:55:00
+Contest Status : Running
+Current System Time : 2014-07-23 10:07:25 
+Solved Problem ID Title Ratio(Accepted / Submitted) 
+
+ 1001 奥运排序问题 35.29%(12/34) 
+ 1002 FatMouse's Speed 33.33%(8/24) 
+ 1003 Fire Net 64.71%(11/17) 
+ 1004 Prime Ring Problem 28.57%(10/35) 
+ 1005 FatMouse' Trade 72.00%(18/25) 
+
+
+===== HENU第二周练习题目 =====
+Start Time : 2014-07-17 09:50:00    End Time : 2014-07-24 09:50:00
+
+Contest Status : Running
+
+Current System Time : 2014-07-23 10:08:06 
+
+Solved Problem ID Title Ratio(Accepted / Submitted) 
+ 1001 绝对值排序  51.16%(22/43) 
+ 1002 sort 20.22%(18/89) 
+ 1003 排序 29.41%(15/51) 
+ 1004 数列有序! 54.05%(20/37) 
+ 1005 人见人爱A-B 47.50%(19/40) 
+ 1006 As Easy As A+B 50.00%(19/38) 
+ 1007 Design T-Shirt 41.67%(20/48) 
+ 1008 EXCEL排序 29.41%(15/51) 
+ 1009 查找最大元素 50.00%(17/34) 
+ 1010 排名 34.69%(17/49) 
+ 1011 连连看 18.52%(5/27) 
+ 1012 A strange lift 46.67%(14/30) 
+ 1013 诡异的楼梯 16.67%(1/6) 
+ 1014 Tempter of the Bone 27.27%(6/22) 
+ 1015 Anagrams by Stack 100.00%(1/1) 
+ 1016 FatMouse' Trade 72.73%(16/22) 
+ 1017 Moving Tables 52.38%(11/21) 
+ 1018 今年暑假不AC 71.43%(15/21) 
+ 1019 Wooden Sticks 72.73%(8/11) 
+

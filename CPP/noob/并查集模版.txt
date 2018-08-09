@@ -1,0 +1,44 @@
+﻿#include <iostream>
+using namespace std;
+int parent[10000001],rank[10000001];//rank数组用来记录一个“祖宗”共有多少“孩子”，即“秩”.
+				    //或记录一个孩子（i）到祖宗的距离（rank[i]）
+
+void make_set()  //用来初始化的函数
+{
+	int i;
+	for(i=1;i<10000001;i++)
+	{
+		parent[i]=i;
+		rank[i]=1;
+	}
+}
+int find(int x)  //找到x的老大（祖宗）
+{
+	if(x!=parent[x])
+		parent[x]=find(parent[x]);
+	return parent[x];
+}
+void union_set(int x,int y)  //把x,y归到同一个老大（祖宗）管辖
+{
+	x=find(x),y=find(y);
+	if(x!=y)
+	{
+		if(rank[x]<rank[y])
+		{
+			parent[x]=y;
+			rank[y]+=rank[x];
+		}
+		else
+		{
+			parent[y]=x;
+			rank[x]+=rank[y];
+		}
+	}
+}
+int main()
+{
+
+	return 0;
+}
+//相关题目 Hdu1856,1213,1232,1829
+

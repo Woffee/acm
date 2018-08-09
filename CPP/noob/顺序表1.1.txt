@@ -1,0 +1,82 @@
+#include<iostream>
+#include<stdlib.h>
+using namespace std;
+#define LIST_INIT_SIZE 100
+#define LISTINCREMENT 20
+typedef struct{
+	int *elem;
+	int length;
+	int listsize;
+}SqList;
+
+void InitList_Sq(SqList &L)
+{
+	L.elem = (int*)malloc(LIST_INIT_SIZE * sizeof(int));
+	if(!L.elem)
+		printf("Can't build the list.");
+	L.length = 100;
+	L.listsize = LIST_INIT_SIZE;
+	for(int i = 0; i<LIST_INIT_SIZE; ++i)
+	{
+		L.elem[i] = i;
+	}
+	for(int j = 0; j<LIST_INIT_SIZE; ++j)
+		printf("%d ",L.elem[j]);
+	printf("\n");
+}
+
+void ListExchange_Sq(SqList &L, int i, int e)
+{
+	L.elem[i-1] = e;
+	for(int j = 0; j<LIST_INIT_SIZE; ++j)
+		printf("%d ",L.elem[j]);
+	printf("\n");
+}
+
+void ListInsert_Sq(SqList &L, int i, int e)
+{
+	int *newbase;
+	int *q;
+	if(i < 1|| i >L.length + 1)printf("Error");
+	if(L.length >=L.listsize)
+	{
+		newbase = (int *)realloc(L.elem, (L.listsize + LISTINCREMENT)*sizeof(int));
+		if(!newbase)exit(0);
+		L.elem = newbase;
+		L.listsize += LISTINCREMENT;
+	}
+	q = &(L.elem[i - 1]);
+	for(int *p = &(L.elem[L.length-1]); p >=q; --p)
+		*(p + 1) = *p;
+	++L.length;
+	L.elem[i] = e;
+	for(int j = 0; j<L.length; ++j)
+		printf("%d ",L.elem[j]); 
+	printf("\n");
+}
+
+void ListDelete_Sq(SqList &L, int i)
+{
+	int *p;
+	int *q;
+	if(i < 1|| i >L.length + 1)cout<<"Error";
+	p = &(L.elem[i - 1]);
+	q = L.elem + L.length - 1;
+	printf("%d\n", L.elem[i-1]);
+	for(++p; p <= q; ++p) *(p-1)=*p;
+	 --L.length;
+	for(int j = 0; j<L.length; ++j)
+		printf("%d ",L.elem[j]);
+	printf("\n");
+}
+
+int main()
+{
+	SqList array;
+    InitList_Sq(array);
+	ListExchange_Sq(array, 3, 30);
+	ListInsert_Sq(array, 20, 39);
+	ListDelete_Sq(array, 50);
+	return 0;
+}
+

@@ -1,0 +1,90 @@
+
+#include<iostream>
+using namespace std;
+
+int parent[2001];        //用负数标记集合的方法实现
+int rank[2001];		 //用于记录改点到 代表 的距离
+
+bool flag;              //用于标记 数据是否 支持教授的推理
+
+void make_set(int n)    //初始化
+{
+	int i=0;
+	for(i=0;i<=n;++i)
+	{
+		parent[i]=-1;
+		rank[i]=0;      //开始时，距离都是到自身。都是0
+	}
+}
+
+int find(int x)
+{
+	if(parent[x]>0)
+	{
+		int t=parent[x];
+		parent[x]=find(parent[x]);
+		rank[x]=(rank[x]+rank[t])%2; 
+		//本节点到代表的距离=本节点到原来代表的距离+原来代表到现在代表的距离
+
+	}
+	return parent[x]>0?parent[x]:x;
+}
+
+void union_set(int x,int y)
+{
+	int px=find(x);
+	int py=find(y);
+	if(px!=py)            
+	{
+		if(parent[px]<=parent[py])
+		{
+			parent[px]+=parent[py];
+			parent[py]=px;
+			rank[py]=(rank[x]+rank[y]+1)%2;   //难点  要根据两个节点的距离，计算它们代表的距离
+		}
+		else
+		{
+			parent[py]+=parent[px];
+			parent[px]=py;
+			rank[px]=(rank[x]+rank[y]+1)%2;
+		}
+	}
+	else           //如果在同一个集合，就不能随便交配了
+	{
+		if(rank[x]%2==rank[y]%2)//既在同一个集合，又是同性。不能交配
+			flag=false;
+	}
+}
+
+int main()
+{
+	int n;
+	scanf("%d",&n);
+	int i=0;
+	for(i=1;i<=n;i++)
+	{
+		memset(parent,-1,sizeof(parent));
+		memset(rank,0,sizeof(rank));
+		flag=true;
+		int number=0;
+		int num=0;
+		scanf("%d%d",&number,&num);
+		int j=0;
+		int a=0,b=0;
+		for(j=0;j<num;j++)
+		{
+			scanf("%d%d",&a,&b);
+			union_set(a,b);
+		}
+		if(flag==true)
+		{
+			printf("Scenario #%d:\n",i);
+			printf("No suspicious bugs found!\n\n");
+		}
+		else
+		{
+			printf("Scenario #%d:\n",i);
+			printf("Suspicious bugs found!\n\n");
+		}
+	}
+}

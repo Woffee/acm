@@ -1,0 +1,78 @@
+##字典树
+###导引问题 (HDOJ-1251)
+Ignatius最近遇到一个难题,老师交给他很多单词(只有小写字母组成,不会有重复的单词出现),现在老师要他统计出以某个字符串为前缀的单词数量(单词本身也是自己的前缀).
+###Tire树的性质
+性质：它有3个基本性质：
+
+1. 根节点不包含字符，除根节点外每一个节点都只包含一个字符。 
+2. 从根节点到某一节点，路径上经过的字符连接起来，为该节点对应的字符串。 
+3. 每个节点的所有子节点包含的字符都不相同。
+
+###模版代码
+	#include <iostream>
+	#include <cstdio>
+	#include <string.h>
+	using namespace std;
+	
+	struct WordNode{
+		//num可以表示一个字典树到此有多少相同前缀的数目，这里根据需要应当学会自由变化。
+		int num ;
+		//next是表示每层有多少种类的数，如果只是小写字母，则26即可，
+		//若改为大小写字母，则是52，若再加上数字，则是62了，这里根据题意来确定。
+		WordNode * nextNode[26];
+	};
+	
+	WordNode wordNode[10000000];
+	int index ;
+	WordNode * ip ;
+	
+	void insertNode(char str[11])
+	{
+		ip = wordNode ;
+		for(int i = 0; i < strlen(str);i ++)
+		{
+			if(ip->nextNode[str[i] - 'a'] != 0)
+			{
+				ip->nextNode[str[i] - 'a']->num ++ ;
+			}
+			else
+			{
+				index ++ ;
+				ip->nextNode[str[i] - 'a'] = wordNode + index ;
+				ip->nextNode[str[i] - 'a']->num = 1 ;
+			}
+			ip = ip->nextNode[str[i] - 'a'] ;
+		}
+		
+	}
+	int search(char str[11])
+	{
+		ip = wordNode ;
+		for(int  i = 0; i < strlen(str); i ++)
+		{
+			if(ip->nextNode[str[i] - 'a'] != NULL)
+				ip = ip->nextNode[str[i] - 'a'] ;
+			else
+				return 0 ;
+		}
+		return ip->num ;
+	
+	}
+	int main()
+	{
+		char temp[11];
+		
+		while(gets(temp)) 
+		{
+			if(strlen(temp)==0)
+				break;
+			insertNode(temp) ;
+		}
+	
+		while(gets(temp) != NULL)
+		{
+			cout<<search(temp)<<endl;
+		}
+		
+		return 0;
+	}

@@ -1,0 +1,122 @@
+首先是定义：
+二叉排序树或者是空树，或者是满足如下性质的二叉树：
+①若它的左子树非空，则左子树上所有结点的值均小于根结点的值；
+②若它的右子树非空，则右子树上所有结点的值均大于根结点的值；
+③左、右子树本身又各是一棵二叉排序树。
+
+然后代码分析：
+#include<iostream>
+#include<cstring>
+using namespace std;
+struct tree
+{
+   char name[35];
+   int count;
+   tree *left,*right;
+}*root, node[10001];//定义root节点指针以及10001个节点
+
+int n;
+double all;
+void insert(char *name)//插入节点，名字为name， 按输入顺序放入node数组
+{
+   if(root == NULL) //未插入节点时
+   {
+   strcpy(node[n].name , name);
+   node[n].left = NULL;
+   node[n].right = NULL;
+   node[n].count = 1;
+   root = node; //设置根节点为当前查找根节点
+   n++;
+   return;
+   }
+     
+  int k=strcmp(root->name,name); //比较当前查找根节点中的数据
+   if(k < 0) //插入值大于当前根值则应放置于当前查找根节点的右子树中
+   {
+   if(root->right == NULL) //如果当前根节点没有右节点则放置在其右节点，并将该右节点设置为当前查找根节点
+   {
+   root->right = node + n; //放入数组并记录节点位置
+   root = NULL;
+   }
+   else //在当前根节点右子树中递归查找
+   {
+   root = root->right;
+   }
+   insert(name);
+   }
+   else if(k > 0) //插入值大于当前根值则应放置于当前查找节点指针的左子树中
+   {
+   if(root->left == NULL) //如果当前根节点没有左节点则放置在其左节点，并将该左节点设置为当前查找根节点
+   {  
+  root->left = node+n;
+   root = NULL;
+   }
+   else root = root->left;
+   insert(name);
+   }
+   else //如果与当前根节点相同则将计数值加1
+   {
+   root->count++;
+   root = node; //设置根节点为当前查找根节点
+   }
+  
+}
+void dfs(tree *p) //从小到大输出数据
+{
+if(p==NULL)
+return;
+dfs(p->left);
+printf("%s %.4f\n",p->name,p->count/all*100);//输出数据和个数百分之几
+dfs(p->right);
+p->count=0;
+p=NULL;
+}
+int main()
+{
+freopen("in.txt","r",stdin);
+char name[35];
+root = NULL;
+n = 0;
+all = 0;
+while(gets(name))//输入数据
+{
+all++;
+insert(name);//生成或插入二叉树
+}
+dfs(root); //打印二叉树
+return 0;
+}
+
+
+
+
+#include <iostream>
+#include <string>
+#include <map>
+#include <algorithm>
+#include <iomanip>
+#include <stdio.h>
+using namespace std;
+int main ()
+{
+    double num=0;
+    char s[31];
+    map<string, double,less<string> > m;
+    while(gets(s)!=NULL) {   // 判断输入 存到 map 容器里
+        if(num) {
+            if(m.find(s)!=m.end())
+                m[s]++;
+            else {
+                m[s]=1;
+            }
+        } else
+            m[s]=1;
+        num++;
+    }
+    map<string,double>::iterator it;  // 迭代器
+    cout.setf(ios::fixed);
+    for(it=m.begin(); it!=m.end(); it++) {  // 输出容器,  map 容器会自动排序吧
+        cout<<it->first<<' '<<setprecision(4)<<it->second/num*100<<endl;
+    }
+    return 0;
+}

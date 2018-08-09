@@ -1,0 +1,63 @@
+折半查找
+void Search_ZheBan(int as[],int n,int m)
+ {
+ 	int low=1;
+ 	int high=n;
+ 	int mid=(low+high)/2;
+ 	int number=0;
+ 	while(high>=low)
+ 	{
+ 		if(as[mid]==m)
+ 		{
+ 			number++;
+ 			cout<<"查找成功，查找次数:"<<number<<endl;
+ 			return;
+ 		}
+ 		else if(as[mid]>m)
+ 			high=mid-1;
+ 		else 
+ 			low=mid+1;
+ 		number++;
+ 	    mid=(low+high)/2;
+ 	}
+ 	cout<<"查找失败！"<<endl;
+ }
+/**********************动态查找************************************/
+typedef struct Tree
+{
+ 	char cha;
+ 	int data;
+ 	Tree * left;
+ 	Tree * right;
+ }* MyTree;
+void Search_ErCha_Tree(MyTree &tree,int data,int & number)
+ {
+ 	if(tree==NULL)
+ 	{
+ 		tree=new Tree();
+ 		tree->data=data;
+ 		tree->left=NULL;
+ 		tree->right=NULL;
+ 		cout<<"查找失败,数据 "<<data<<" 插入到排序树中,查找次数："<<number<<endl;
+ 		return;
+ 	}
+ 	else
+ 	{
+ 		if(tree->data>data) 左子树比较；
+ 		{
+ 			number++;
+ 			Search_ErCha_Tree(tree->left,data,number);
+ 		}
+ 		else if(tree->data==data)
+ 			{
+                  cout<<data<<"查找成功，查找次数是："<<number<<endl;
+ 				 return;
+ 			}
+ 			else
+ 			{
+ 				number++;
+ 				Search_ErCha_Tree(tree->right,data,number);
+ 			}
+ 	}
+ 
+ }

@@ -1,0 +1,205 @@
+﻿ 
+#include <algorithm>   
+#include <iostream>
+#include <iomanip>     
+#include <fstream>     
+#include <cstring>
+#include <string>
+#include <cstdio>
+#include <cmath>
+#include <stack>
+#include <time.h>   
+#include <map>   
+using namespace std; 
+
+int main()
+{
+	printf("Time used = %.2lf s \n",(double)clock()/CLOCKS_PER_SEC );
+
+}
+输入输出:
+	整数值用 %d 输出，实数用 %lf 输出。
+	printf("%d\n", i>>1);   d代表整型
+	printf("%10.2f\n", d);  以右对齐方式占10位字符且保留2位小数点。f代表float
+	printf("%-10.2f\n", d); 以左对齐方式占10位字符且保留2位小数点。
+
+	三兄弟：
+	printf("%s\n", );          //输出到屏幕
+	fprintf(stderr, "%s\n", );//输出到文件
+	sprintf(s,"%d%d",a,b);    //输出到字符串s中
+
+	例：
+	char ss[100]="12:34:56";
+	int h,m,s;
+	sscanf(ss,"%d:%d:%d",&h,&m,&s);//从ss写入到h,m,s
+	printf("%d %d %d\n",h,m,s );
+	//输出结果：12 34 56
+
+
+#include <queue>
+	queue<int>q;
+	q.push(xx);
+	q.empty();
+	q.front();
+	q.pop();
+
+#include <stack>
+	stack<int>s;
+	s.empty();
+	s.top();
+	s.pop();
+	s.push(xx);
+
+#include <map>
+	map<char,string> mymap;
+	mymap['a']="an element";
+	mymap['b']="another element";
+	mymap['c']=mymap['b'];
+
+	begin()         返回指向map头部的迭代器
+	end()           返回指向map末尾的迭代器
+
+	empty()         如果map为空则返回true
+	size()          返回map中元素的个数
+	max_size()      返回可以容纳的最大元素个数
+	clear(）        删除所有元素
+	swap()           交换两个map
+
+    operator[]   下标操作
+	find()          查找一个元素
+	insert()        插入元素
+	erase()         删除一个元素
+	count()         返回指定元素出现的次数
+
+	lower_bound()   返回键值>=给定元素的第一个位置
+	upper_bound()    返回键值>给定元素的第一个位置
+	equal_range()   返回特殊条目的迭代器对
+
+#include <string>
+	string s;
+	s.length()  //获取长度
+
+...................................................................................
+1 printf输出float和double都可以用%f，double还可以用%lf。
+2 scanf输入float用%f，double输入用%lf，不能混用。
+...................................................................................
+C：
+
+char st[100];
+
+1. 字符串长度
+
+   strlen(st);
+
+2. 字符串比较
+
+   strcmp(st1,st2);
+
+   strncmp(st1,st2,n);   把st1,st2的前n个进行比较。
+
+3. 附加
+
+   strcat(st1,st2);
+
+   strncat(st1,st2,n);   n表示连接上st2的前n个给st1，在最后不要加'\0'。
+
+4. 替换
+
+   strcpy(st1,st2);
+
+   strncpy(st1,st2,n); n表示复制st2的前n个给st1，在最后要加'\0'。
+
+5. 查找
+
+   where = strchr(st,ch)   ch为要找的字符。
+
+   where = strspn(st1,st2); 查找字符串。
+..................................................................................
+C++：
+
+<string>
+
+string str;
+
+1. 字符串长度
+
+   len = str.length();
+
+   len = str.size();
+
+2. 字符串比较
+
+   可以直接比较
+
+   也可以:
+
+   str1.compare(str2); 
+
+   str1.compare(pos1,len1,str2,pos2,len2); 值为负，0 ，正。
+
+   nops 长度到完。
+
+3. 附加
+
+   str1 += str2;
+
+   或
+
+   str1.append(str2);
+
+   str1.append(str2.pos2,len2);
+
+4. 字符串提取
+
+   str2 = str1.substr();
+
+   str2 = str1.substr(pos1);
+
+   str2 = str1.substr(pos1,len1);
+
+5. 字符串搜索
+
+   where = str1.find(str2);
+
+   where = str1.find(str2,pos1); pos1是从str1的第几位开始。
+
+   where = str1.rfind(str2); 从后往前搜。
+
+6. 插入字符串
+
+   不是赋值语句。
+
+   str1.insert(pos1,str2);
+
+   str1.insert(pos1,str2,pos2,len2);
+
+   str1.insert(pos1,numchar,char);    numchar是插入次数，char是要插入的字符。
+
+7. 替换字符串
+
+   str1.replace(pos1,str2);
+
+   str1.replace(pos1,str2,pos2,len2);
+
+8. 删除字符串
+
+   str.erase(pos,len)
+
+   str.clear();
+
+9. 交换字符串
+
+   swap(str1,str2);
+
+10. C --> C++
+
+   char *cstr = "Hello";
+
+   string str1;
+
+   cstr = cstr;
+
+   string str2(cstr); 
+------------------------------------------------------------------------2014.12.10
+
+

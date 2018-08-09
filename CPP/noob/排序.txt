@@ -1,0 +1,128 @@
+/************************快排************************/
+#include<iostream>
+using namespace std;
+int as[100];
+交换
+void Change(int & a,int & b)
+{
+	a=a+b;
+	b=a-b;
+	a=a-b;
+}
+
+输出；
+void prinf(int as[],int len)
+{
+	for(int i=1;i<len;i++)
+		cout<<as[i]<<" ";
+	cout<<endl;
+}
+
+快排
+
+int  Sort_quick(int as[],int len,int start,int end)
+{
+	as[0]=as[start];
+	int l=start;
+	int r=end;
+	while(l<r)
+	{
+	如果as[r]<as[0]或者as[l]>as[0]都需要交换，并且在刚开始比较时都是从后往前的
+		while(l<r&&as[r]>as[0])
+			r--;
+		Change(as[l],as[r]);
+		while(l<r&&as[l]<as[0])
+			l++;
+		Change(as[l],as[r]);
+	}
+	找到哨兵元素的实际位置,即分界元素
+	as[r]=as[0];
+	return r;
+}
+void Sort(int as[],int len,int start,int end)
+{
+	if(start<end)
+	{
+		int r=Sort_quick(as,len,start,end);
+		if(start<r-1)
+		Sort(as,len,start,r-1);
+		if(end>r+1)
+		Sort(as,len,r+1,len-1);
+	}
+	
+}
+int main()
+{
+	int len=0;
+    while(cin>>as[++len]);
+	Sort(as,len,1,len-1);
+	prinf(as,len);
+	return 0;
+}
+/********************折半排序**************************************/
+void PaiXv_ZheBan(int as[],int n)
+{
+	for(int i=2;i<=n;i++)
+	{
+		as[0]=as[i];
+		int high=i-1;
+		int low=1;
+		int m=(high+low)/2;
+		while(high>=low)
+		{
+			if(as[m]<as[0])
+				low=m+1;
+			else
+				high=m-1;
+			m=(high+low)/2;
+		}
+		int temp=i-1;
+		for(;temp>=high+1;temp--)
+			as[temp+1]=as[temp];
+		as[temp+1]=as[0];
+	}
+	cout<<"排序后的结果是："<<endl;
+     for(int j=1;j<=n;j++)
+		cout<<as[j]<<" ";
+	 cout<<endl;
+}
+/********************直接插入排序法；*******************************/
+void PaiXv_Insertion(int as[],int n)
+{
+	for(int i=2;i<=n;i++)
+	{
+		as[0]=as[i];
+		int temp=i-1;
+		for(;temp>=1&&as[0]<as[temp];temp--)
+				as[temp+1]=as[temp];
+		as[temp+1]=as[0];
+		
+	}
+
+	//输出排序后的结果；
+	cout<<"排序后的结果是："<<endl;
+     for(int j=1;j<=n;j++)
+		cout<<as[j]<<" ";
+	 cout<<endl;
+
+}
+/**********************希尔排序********************************/
+void PaiXv_Shell(int as[],int n,int dx)
+{
+	for(int i=dx+1;i<=n;i++)
+	{
+		if(as[i]<as[i-dx])
+		{
+			as[0]=as[i];
+			int j=0;
+			for( j=i-dx;j>0&&as[0]<as[j];j-=dx)
+			{
+				as[j+dx]=as[j];
+			}
+			as[j+dx]=as[0];
+		}
+	}
+	for(int i=1;i<=n;i++)
+		cout<<as[i]<<" ";
+	cout<<endl;
+}

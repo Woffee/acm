@@ -1,0 +1,32 @@
+#include <iostream>
+#include <cstdio>
+using namespace std;
+
+int ans[3001] = {0};
+bool que[40010] = {1, 1, 0};
+
+int main()
+{
+    int k, i, j, cnt;
+    for(k = 0; k < 3001; k++)
+    {
+        //这个for loop找到下一个未被选中的人
+        for(i = ans[k-1]+1; que[i]; i++){}
+        ans[k] = i;
+        for(j = i+1, cnt = i; j < 40010; j++)
+        {
+            if(!que[j] && !--cnt)
+            {
+                que[j] = 1;
+                cnt = i;
+            }
+        }
+    }
+   // for(i = 1; i < 20; i++) cout<< ans[i] << " ";
+   // cout<<endl;
+    while(scanf("%d", &i) && i)
+    {
+        printf("%d\n", ans[i-1]);
+    }
+    return 0;
+}

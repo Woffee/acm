@@ -1,0 +1,64 @@
+¡¾map1¡¿
+#include<stdio.h>
+#include<cstring>
+#include<iostream>
+#include<map>
+using namespace std;
+int a[1000001];
+int main()
+{
+	map<int,int> s;
+	int n;
+	while(scanf("%d",&n)&&n)
+	{
+		s.clear();
+		while(n--)
+		{
+			int x;
+			scanf("%d",&x);
+			s[x]++;
+		}
+		map<int,int>::iterator i;
+		for(i=s.begin();i!=s.end();i++)
+		{
+			if(i->second==1)
+			{
+				printf("%d\n",i->first);break;
+			}
+		}
+	}
+}
+
+¡¾map2¡¿
+#include<iostream>
+#include<map>
+using namespace std;
+int main()
+{
+	freopen("in.txt","r",stdin);
+	int n,a;
+	int i;
+	while(scanf("%d",&n)!=EOF&&n)
+	{
+		map<int,int> m;
+		for(i=0;i<n;++i)
+		{
+			scanf("%d",&a);
+			m[a]++;
+		}
+		
+		map<int , int>::iterator it;
+        int min=99999999;
+		for(it = m.begin(); it!=m.end(); ++it)
+        {
+            if((*it).second<min)
+            {
+                min=(*it).second;
+                a=(*it).first;
+            }
+        }
+		printf("%d\n",a);
+	}
+	return 0;
+
+}

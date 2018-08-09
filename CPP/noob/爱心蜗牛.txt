@@ -1,0 +1,139 @@
+#include<iostream>
+#include<vector>
+#include<algorithm>
+bool visited[105];
+int num[105];
+using namespace std;
+struct vex{
+	int first;		                        //第一条儿子边在edges数组的位置  初始化为-1表示没有儿子
+};
+vex vexs[100];						//顶点数组
+struct edge{
+	int to;						//儿子的编号
+	int next;					//下一个儿子的位置
+};
+edge edges[100];				        //边数组
+int dfs(int k)
+{
+	vector<int> v;				        //保存其子节点的最少通知时间
+	visited[k]=true;			        //已经将k加入树中
+	int lin=vexs[k].first;
+	int max=-1;
+	while(lin!=-1)				        //遍历其所有子树 并将其最少通知时间加入向量 
+	{
+		if(!visited[edges[lin].to])
+		{
+			v.push_back(dfs(edges[lin].to));
+		}
+		lin=edges[lin].next;
+	}
+	if(v.size()==0)				        //说明其是叶子节点  最少需要的通知时间是1
+		return 1;
+	sort(v.begin(),v.end());	                //从小到大排序
+	for(int i=0;i<v.size();i++)	                //dp【k】=max（dp【sj】+j）其中sj是k的第jx小儿子
+	{
+		if(v[i]+(int)v.size()-i>max) 
+			max=v[i]+v.size()-i;
+	}
+	return max;
+}
+int main()
+{
+	int N;
+	int i,j,k;
+	int sum;
+	while(cin>>N)
+	{
+		for(i=0;i<=N;++i)
+			vexs[i].first=-1;
+		k=0;sum=105;
+		for(i=2;i<=N;++i)
+		{
+			cin>>j;
+			edges[k].to=i;
+			edges[k].next=vexs[j].first;
+			vexs[j].first=k;
+			k++;
+			edges[k].to=j;
+			edges[k].next=vexs[i].first;
+			vexs[i].first=k;
+			k++;
+		}
+		for(i=1;i<=N;++i)
+		{
+			memset(visited,false,sizeof(visited));
+			num[i]=dfs(i);
+			sum=sum<num[i]?sum:num[i];
+		}
+		cout<<sum<<endl;
+		for(i=1;i<=N;++i)
+			if(sum==num[i])
+				cout<<i<<' ';
+		cout<<endl;
+	}
+	return 0;
+}
+************************************************************************************
+#include<iostream>
+using namespace std;
+struct vex{
+	int first;		                //第一条儿子边在edges数组的位置  初始化为-1表示没有儿子
+};
+vex vexs[100];					          //顶点数组
+struct edge{
+	int to;					          //儿子的编号
+	int next;				          //下一个儿子的位置
+};
+edge edges[100];				         //边数组
+int ans[100][2];				        //ans数组
+void dfs(int k)						//求以节点k为根的子树的ans值
+{
+	int lin=vexs[k].first;
+	while(lin!=-1)
+	{
+		dfs(edges[lin].to);			//先将其子节点的ans数组初始化
+		ans[k][0]+=max(ans[edges[lin].to][0],ans[edges[lin].to][1]);
+									        //子节点参加
+		ans[k][1]+=ans[edges[lin].to][0];                //子节点不参加
+		lin=edges[lin].next;
+	}
+	ans[k][1]+=1;						//自己参加加上最后自己的值
+}
+int maxnum(int root)					        //返回以整棵树的最大不相邻点的个数
+{						
+	memset(ans,0,sizeof(ans));			        //将ans数组初始化
+	dfs(root);					        //从根结点开始对ans数组赋值			
+	if(ans[root][1]>ans[root][0])		                //返回一个较大的值
+       return ans[root][1];
+	else
+		return ans[root][0];
+}
+int main()
+{
+	int N;
+	int i,j,k;
+	while(cin>>N)
+	{
+		for(i=0;i<=N;++i)
+			vexs[i].first=-1;
+		k=0;
+		for(i=2;i<=N;++i)
+		{
+			cin>>j;
+			edges[k].to=i;
+			edges[k].next=vexs[j].first;
+			vexs[j].first=k;
+			k++;
+			//edges[k].to=j;
+			//edges[k].next=vexs[i].first;
+			/exs[i].first=k;
+			//k++;
+		}
+		for(i=1;i<=N;++i)                               //输出分别以i为根的集合的个数
+		{
+			cout<<i<<':'<<maxnum(i)<<endl;
+		}
+	}
+	return 0;
+}
+

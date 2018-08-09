@@ -1,0 +1,66 @@
+#include <iostream>  
+using namespace std;  
+const int maxn = 50000;  
+struct node  
+{  
+    int l,r;  
+    int pl,pr;  
+    int maxnum;  
+    int minnum;  
+}tree[200000];  
+int total;  
+int height[maxn+10];  
+int max(int a, int b) {if (a>=b) return a; else return b;}  
+int min(int a, int b) {if (a<=b) return a; else return b;}  
+int build(int l, int r)  
+{  
+    int root = total;  
+    total++;  
+    tree[root].l = l;  
+    tree[root].r = r;  
+    if (l==r) tree[root].maxnum = tree[root].minnum = height[l];  
+    else if (r>l)  
+    {  
+        int mid = (l+r)/2;  
+        tree[root].pl = build(l,mid);  
+        tree[root].pr = build(mid+1,r);  
+        tree[root].maxnum = max(tree[tree[root].pl].maxnum,tree[tree[root].pr].maxnum);  
+        tree[root].minnum = min(tree[tree[root].pl].minnum,tree[tree[root].pr].minnum);  
+    }  
+    return root;  
+}  
+  
+int getmax(int root, int l, int r)  
+{  
+    if (tree[root].l==l && tree[root].r==r) return tree[root].maxnum;  
+    int mid = (tree[root].l + tree[root].r)/2;  
+    if (r<=mid) return getmax(tree[root].pl, l, r);  
+    else if (l>mid) return getmax(tree[root].pr, l, r);  
+    else return max(getmax(tree[root].pl,l,mid), getmax(tree[root].pr,mid+1,r));  
+}  
+  
+int getmin(int root, int l, int r)  
+{  
+    if (tree[root].l==l && tree[root].r==r) return tree[root].minnum;  
+    int mid = (tree[root].l + tree[root].r)/2;  
+    if (r<=mid) return getmin(tree[root].pl, l, r);  
+    else if (l>mid) return getmin(tree[root].pr, l, r);  
+    else return min(getmin(tree[root].pl,l,mid), getmin(tree[root].pr,mid+1,r));  
+}  
+  
+int main()  
+{  
+    int n,q;  
+    int a,b;  
+    int i;  
+    scanf("%d %d", &n, &q);  
+    for (i=1; i<=n; i++) scanf("%d", &height[i]);  
+    total = 0;  
+    int root = build(1,n);  
+    for (i=0; i<q; i++)  
+    {  
+        scanf("%d %d", &a, &b);  
+        printf("%d/n", getmax(root,a,b)-getmin(root,a,b));  
+    }  
+    return 0;  
+}  

@@ -1,0 +1,75 @@
+#include<iostream>
+#include<cmath>
+#include<algorithm>
+using namespace std;
+struct node
+{
+	double x,y;
+	bool operator < (node a)
+	{
+		if(a.y==y)
+			return a.x>x;
+		return a.y>y;
+	}
+}point[105];
+node temp;
+double multips(node a,node b,node c)
+{
+	return a.x*b.y+c.x*a.y+b.x*c.y-c.x*b.y-b.x*a.y-a.x*c.y;
+}
+double Distance(node a,node b)
+{
+	return sqrt((a.x-b.x)*(a.x-b.x)+(a.y-b.y)*(a.y-b.y));
+}
+bool cmp(node a,node b)
+{	
+	double xmt=multips(temp,a,b);
+	if(xmt)
+		return xmt>0;
+	return Distance(temp,a)>Distance(temp,b);
+}
+double Graham(int T)
+{
+	if(T==1)
+		return 0;
+	if(T==2)
+		return Distance(point[0],point[1]);
+	node res[105];
+	int top=0;
+	res[top++]=point[0];
+	res[top++]=point[1];
+	res[top++]=point[2];
+	for(int k=3;k!=T;++k)
+	{
+		while(multips(res[top-2],res[top-1],point[k])<0&&top>=3)
+			--top;
+		res[top++]=point[k];
+	}
+	double sum=0;
+	for(int i=0;i!=top;++i)
+	{
+		int ant=(i+1==top)?0:i+1;
+		double tt=Distance(res[i],res[ant]);
+		sum+=tt;
+	}
+	return sum;
+}
+int main()
+{
+	//freopen("1.txt","r",stdin);
+	int T;
+	while(scanf("%d",&T)!=EOF&&T)
+	{
+		int t=0,i;
+		for(i=0;i!=T;++i)
+		{
+			cin>>point[i].x>>point[i].y;
+			if(!i||point[i]<point[t])
+				t=i;
+		}
+		temp=point[t];point[t]=point[0];point[0]=temp;
+		sort(point+1,point+T,cmp);
+		printf("%.2f\n",Graham(T));
+	}
+	return 0;
+}

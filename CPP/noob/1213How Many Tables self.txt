@@ -1,0 +1,49 @@
+#include<stdio.h>
+#include<memory.h> 
+int parent[1010];
+int find(int x)
+{
+	if(parent[x]>0)
+		parent[x]=find(parent[x]);
+	return parent[x]>0? parent[x]:x;
+}
+void union_set(int x,int y)
+{
+	x=find(x),y=find(y);
+	if(x!=y)//说明x、y为两个不同的集合，下面操作为将小集合并入大集合
+	{
+		if(parent[x]<parent[y])
+		{
+			parent[x]+=parent[y];
+			parent[y]=x;
+		}
+		else
+		{
+			parent[y]+=parent[x];
+			parent[x]=y;
+		}
+	}
+}
+int main()
+{
+	freopen("out.txt","w",stdout);
+	int i,j,t,m,n,a,b,w;
+	scanf("%d",&t);
+	for(i=0;i<t;i++)
+	{ 
+		w=0;
+		memset(parent,-1,sizeof(parent));
+		scanf("%d%d",&n,&m);
+		for(j=0;j<m;j++)
+		{
+			scanf("%d%d",&a,&b);
+			union_set(a,b);
+		}
+		for(j=1;j<=n;j++)
+		{
+			if(parent[j]<0)
+				w++;
+		}
+		printf("%d\n",w);
+	}
+}

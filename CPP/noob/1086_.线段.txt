@@ -1,0 +1,122 @@
+
+#include<iostream>
+using namespace std;
+
+struct Point
+{
+	double x, y;
+};
+struct Segment
+{
+	Point u , v;
+};
+
+double max(double x , double y)
+{
+	return x > y?x:y ;
+}
+double min(double x, double y)
+{
+	return x < y?x:y;
+}
+int Mul(Point p1 , Point p2 ,Point p3 )
+{
+     double d = (p2.x - p1.x) * (p3.y - p1.y) - (p3.x - p1.x) *(p2.y-p1.y);
+	 if(d > 0) 
+		 return 1;//向量p1p2在向量p1p3的顺时针方向
+	 else if(d < 0)
+		 return -1;//向量p1p2在向量p1p3的逆时针方向
+     else 
+		 return 0;
+}
+bool On_seg(Point p1 , Point p2 , Point p3)
+{
+	if((p3.x >= min(p1.x,p2.x) && p3.x<= max(p1.x,p2.x))
+		&&(p3.y>=min(p1.y,p2.y)&&p3.y<=max(p1.y,p2.y)))
+		return true;
+	else
+		return false;
+}
+
+bool cross(Segment a , Segment b)
+{
+	int d1 = Mul(a.u,a.v,b.u);
+	int d2 = Mul(a.u,a.v,b.v);
+	int d3 = Mul(b.u,b.v,a.u);
+	int d4 = Mul(b.u,b.v,a.v);
+	if((d1 * d2 < 0)&&(d3 * d4 < 0))
+		return true;
+	else if(d1 == 0 &&On_seg(a.u,a.v,b.u))
+		return true;
+	else if(d2 == 0 &&On_seg(a.u,a.v,b.v))
+		return true;
+	else if(d3 == 0 &&On_seg(b.u,b.v,a.u))
+		return true;
+	else if(d4 == 0 && On_seg(b.u,b.v,a.v))
+		return true;
+	else
+		return false;
+
+}
+
+int main()
+{
+	//freopen("input.txt","r",stdin);
+        int N ,i,sum, j;
+	Segment * seg;
+	while(true)
+	{
+		sum = 0;
+		cin>>N;
+		if(!N)  return 0;
+                seg = new Segment[N];               //动态生成数组
+		for( i = 0; i < N; i ++)            //输入数据
+			cin >> seg[i].u.x >>seg[i].u.y >>seg[i].v.x >>seg[i].v.y;
+
+                 for(i = 0 ; i <N -1; i ++)         //依次循环判断每次一条线段与其他线段是否相交
+			for(j = i + 1 ; j <N; j ++) //关键点：让j = i + 1是为了避免重复判断
+				if(cross(seg[i],seg[j]))
+					sum ++;
+		cout<<sum<<endl;
+	}
+	return 0;
+}
+
+补充：
+　矢量叉积：
+
+　　计算矢量叉积是与直线和线段相关算法的核心部分。设矢量P = ( x1, y1 )，Q = ( x2, y2 )，则矢量叉积定义为由(0,0)、p1、p2和p1+p2所组成的平行四边形的带符号的面积，即：P × Q = x1*y2 - x2*y1，其结果是一个标量。显然有性质 P × Q = - ( Q × P ) 和 P × ( - Q ) = - ( P × Q )。一般在不加说明的情况下，本文下述算法中所有的点都看作矢量，两点的加减法就是矢量相加减，而点的乘法则看作矢量叉积。
+
+　　叉积的一个非常重要性质是可以通过它的符号判断两矢量相互之间的顺逆时针关系：
+
+　　若 P × Q > 0 , 则P在Q的顺时针方向。
+　　若 P × Q < 0 , 则P在Q的逆时针方向。
+　　若 P × Q = 0 , 则P与Q共线，但可能同向也可能反向。
+
+　　折线段的拐向判断：
+
+　　折线段的拐向判断方法可以直接由矢量叉积的性质推出。对于有公共端点的线段p0p1和p1p2，通过计算(p2 - p0) × (p1 - p0)的符号便可以确定折线段的拐向：
+
+　　若(p2 - p0) × (p1 - p0) > 0,则p0p1在p1点拐向右侧后得到p1p2。
+
+　　若(p2 - p0) × (p1 - p0) < 0,则p0p1在p1点拐向左侧后得到p1p2。
+
+　　若(p2 - p0) × (p1 - p0) = 0,则p0、p1、p2三点共线。
+
+　　具体情况可参照下图：
+
+     
+
+　　判断点是否在线段上：
+
+　　设点为Q，线段为P1P2 ，判断点Q在该线段上的依据是：( Q - P1 ) × ( P2 - P1 ) = 0 且 Q 在以 P1，P2为对角顶点的矩形内。前者保证Q点在直线P1P2上，后者是保证Q点不在线段P1P2的延长线或反向延长线上，对于这一步骤的判断可以用以下过程实现：
+
+　　ON-SEGMENT(pi,pj,pk)
+
+　　if min(xi,xj) <= xk <= max(xi,xj) and min(yi,yj) <= yk <= max(yi,yj)
+
+　　then return true;
+
+　　else return false;
+
+　　特别要注意的是，由于需要考虑水平线段和垂直线段两种特殊情

@@ -1,0 +1,82 @@
+#include <iostream>
+using namespace std;
+#define STACK_INIT_SIZE 100
+#define STACKINCREMENT 10
+
+typedef struct{                  // 存放int型数据的栈结构
+	int *base;               // 栈底指针
+	int *top;                //栈顶指针
+	int stacksize;           //栈的容量
+}SqStack;
+
+int InitStack(SqStack &S)        //建栈
+{
+	S.base=(int*)malloc(STACK_INIT_SIZE*sizeof(int));
+	if(!S.base)              //申请空间失败
+		exit(-1);
+	S.top=S.base;            //初始栈为空
+	S.stacksize=STACK_INIT_SIZE;
+	return 0;
+}
+
+int GetTop(SqStack S,int &e)      //取栈顶元素
+{
+	if(S.top==S.base)
+		return -1;
+	e=*(S.top-1);
+	cout<<e<<endl;
+	return 0;
+}
+
+int Push(SqStack &S,int e)         //入栈
+{
+	if(S.top-S.base>=S.stacksize)
+	{
+		S.base=(int *)realloc(S.base,(S.stacksize+STACKINCREMENT)*sizeof(int));
+		if(!S.base)
+			exit(-1);
+		S.top=S.base+S.stacksize;
+		S.stacksize+=STACKINCREMENT;
+	}
+	*S.top++ =e;
+	return 0;
+}
+
+int Pop(SqStack &S,int &e)         //出栈
+{
+	if(S.top==S.base)
+		return -1;
+	e=* --S.top;
+	return 0;
+}
+
+int main()
+{
+	SqStack A;
+	InitStack(A);
+	int i,j,e;
+	for(i=1;i<=5;i++)
+		Push(A,i);
+	GetTop(A,e);
+	for(j=1;j<=5;j++)
+	{
+		Pop(A,e);
+		cout<<e<<" ";
+	}
+	return 0;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

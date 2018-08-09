@@ -1,0 +1,67 @@
+/*输入
+           3 3
+           2 1 2
+           3 1 2 3
+           2 2 3
+表示邻接矩阵
+           1 1 0
+           1 1 1 
+           0 1 1
+*/
+#include<iostream>
+using namespace std;
+int g[201][201];//图
+int match[201];//Y在X中匹配的点：match[Yi]=Xi
+int mark[201];//寻找增广路径时在X边的足迹
+int n,m;//X,Y集合的个数
+bool path(int i)
+{
+	for(int j=0;j<m;j++)//依次遍历另一半的所有结点
+		if(g[i][j]&&!mark[j])
+		{
+			mark[j]=1;
+			if(match[j]==-1||path(match[j]))
+			//由于逻辑运算符的短路功能，match[j]==-1的话不会继续递归（执行 path(match[j]) ）。
+			//match[i]==-1表示直接找到 不在原匹配中的点，结束查找，生成增广路径
+			//递归可以理解为以原匹配中与j匹配的节点为起始，再次查找增广路径
+			{
+				match[j]=i;;//将(i,j)加入匹配中，原匹配中的边(match[j],j)从匹配中删除，即取反操作
+				return true;;//找到增广路径
+			}
+		}
+	return false;
+}
+int Max_match()
+{
+	int sum=0;//匹配数
+	memset(match,-1,sizeof(match));
+	for(int i=0;i<n;i++)
+	{
+		memset(mark,0,sizeof(mark));
+		if(path(i)) sum++;
+	}
+	return sum;
+}
+
+
+
+int main()
+{
+	freopen("out.txt","w",stdout);
+	int j,k,a;
+	while(scanf("%d%d",&n,&m)!=EOF)
+	{
+		memset(g,0,sizeof(g));//初始化图
+		for(int i=0;i<n;i++)
+		{
+			scanf("%d",&a);
+			for(k=0;k<a;k++)
+			{
+				scanf("%d",&j);
+				g[i][j-1]=1;
+			}
+		}
+		printf("%d\n",Max_match());
+	}
+	return 0;
+}

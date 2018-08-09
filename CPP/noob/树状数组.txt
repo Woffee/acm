@@ -1,0 +1,144 @@
+##树状数组 
+>当要频繁的对数组元素进行修改,同时又要频繁的查询数组内任一区间元素之和的时候,可以考虑使用树状数组. 
+
+>通常对一维数组最直接的算法可以在O(1)时间内完成一次修改,但是需要O(n)时间来进行一次查询.而树状数组的修改和查询均可在O(log(n))的时间内完成. 
+
+###必不可少的图：
+ 
+													        C[8]
+															 /|
+								----------------------------/ |
+							  /							   /  |
+						    C[4]                  ------- /   |
+							/ |                 /        /    |
+	            -----------/  |                /        /     |
+	          /           /   |               /        /      |
+	        C[2]		 / 	  |			    C[6]      |       |
+			/ |			/	  |	           /  |       |       |
+	    ---   |        /      |         --    |       |       |
+	  /       |       /       |        /      |       |       |
+	C[1]      |     C[3]      |     C[5]      |     C[7]      |
+	  |       |       |       |       |       |       |       |
+	  |       |       |       |       |       |       |       |
+	A[1]    A[2]    A[3]    A[4]    A[5]    A[6]    A[7]    A[8] ......  
+
+###假设一维数组为A[i](i=1,2,...n),则与它对应的树状数组C[i](i=1,2,...n)是这样定义的： 
+
+	C1 = A1 
+	C2 = A1 + A2 
+	C3 = A3 
+	C4 = A1 + A2 + A3 + A4 
+	C5 = A5 
+	C6 = A5 + A6
+	C7 = A7 
+	C8 = A1 + A2 + A3 + A4 + A5 + A6 + A7 + A8 
+	…… 
+	C16 = A1 + A2 + A3 + A4 + A5 + A6 + A7 + A8 + A9 + A10 
+		 + A11 + A12 + A13 + A14 + A15 + A16 
+	...... 
+
+ 
+
+###(1)C[t]展开以后有多少项？由下面公式计算： 
+
+	int lowbit(int t){//计算c[t]展开的项数   
+	   return t&(-t);   
+	} 
+	  
+C[t]展开的项数就是lowbit(t),C[t]就是从A[t]开始往左连续求lowbit(t)个数的和. 
+
+回顾：C[ i ]＝A[i-2^k+1]+…+A[i] ,
+k是i在二进制时末尾0的个数， 或者说是i用2的幂方和表示时的最小指数。
+利用位运算，我们可以直接计算出:　2^k=i&(i^(i-1))或2^k=i&(-i)
+
+
+###(2)修改 
+比如修改了A3,必须修改C3,C4,C8,C16,C32,C64... 
+当我们修改A[i]的值时，可以从C[i]往根节点一路上溯，调整这条路上的所有C[]即可，对于节点i，父节点下标 p=i+lowbit(i)  
+
+	//给A[i]加上 x后，更新一系列C[j]   
+	update(int i,int x){    
+	 while(i<=n){   
+	    c[i]=c[i]+x;    
+	    i=i+lowbit(i);    
+	     }    
+	}    
+
+
+###(3)求数列A[]的前n项和，只需找到n以前的所有最大子树，把其根节点的C加起来即可。 
+如：
+
+		    Sun(1)=C[1]=A[1];
+    		Sun(2)=C[2]=A[1]+A[2];
+    		Sun(3)=C[3]+C[2]=A[1]+A[2]+A[3];
+    		Sun(4)=C[4]=A[1]+A[2]+A[3]+A[4];
+    		Sun(5)=C[5]+C[4];
+    		Sun(6)=C[6]+C[4];
+    		Sun(7)=C[7]+C[6]+C[4];
+    		Sun(8)=C[8];
+    		,,,,,,
+
+----------
+
+	int Sum(int n) //求前n项的和.   
+	{    
+	    int sum=0;    
+	    while(n>0)    
+	    {    
+	         sum+=C[n];    
+	         n=n-lowbit(n);    
+	    }        
+	    return sum;    
+	}  
+
+----------
+
+	lowbit(1)=1       lowbit(2)=2       lowbit(3)=1       lowbit(4)=4  
+	lowbit(5)=1       lowbit(6)=2       lowbit(7)=1       lowbit(8)=8  
+	lowbit(9)=1       lowbit(10)=2      lowbit(11)=1      lowbit(12)=4  
+	lowbit(13)=1      lowbit(14)=2      lowbit(15)=1      lowbit(16)=16  
+	lowbit(17)=1      lowbit(18)=2      lowbit(19)=1      lowbit(20)=4  
+	lowbit(21)=1      lowbit(22)=2      lowbit(23)=1      lowbit(24)=8  
+	lowbit(25)=1      lowbit(26)=2      lowbit(27)=1      lowbit(28)=4  
+	lowbit(29)=1      lowbit(30)=2      lowbit(31)=1      lowbit(32)=32  
+	lowbit(33)=1      lowbit(34)=2      lowbit(35)=1      lowbit(36)=4  
+	lowbit(37)=1      lowbit(38)=2      lowbit(39)=1      lowbit(40)=8  
+	lowbit(41)=1      lowbit(42)=2      lowbit(43)=1      lowbit(44)=4  
+	lowbit(45)=1      lowbit(46)=2      lowbit(47)=1      lowbit(48)=16  
+	lowbit(49)=1      lowbit(50)=2      lowbit(51)=1      lowbit(52)=4  
+	lowbit(53)=1      lowbit(54)=2      lowbit(55)=1      lowbit(56)=8  
+	lowbit(57)=1      lowbit(58)=2      lowbit(59)=1      lowbit(60)=4  
+	lowbit(61)=1      lowbit(62)=2      lowbit(63)=1      lowbit(64)=64
+
+###参考代码：
+
+	int C[1005];//树状数组
+	int Max;//记录树状数组下标的最大值
+	inline int lowbit(int i)
+	{
+		return i&(-i);
+	}
+	void plus(int loc,int data)//向位置loc处加上data
+	{
+		while(loc<=Max)
+		{
+			C[loc]+=data;
+			loc+=lowbit(loc);
+		}
+	}
+	int sum(int loc)//求和
+	{
+		int sum=0;
+		while(loc>0)
+		{
+			sum+=C[loc];
+			loc-=lowbit(loc);
+		}
+		return sum;
+	}
+###树状数组小结:
+
+
+注意：一般让求中间某一段的长度内的总和，故要用：Sum[end]-Sum[begin]+A[begin](或者是 Sum[end]-Sum[begin-1]更简洁);二维的情况可以自己试着写一下！
+
+只需一个数组，两个函数（代码仅仅几行而已），我们就能在O（logn）的时间内，动态地维护一个序列，很轻松地求出一个区间元素值的总和！就这么简单！！！

@@ -1,0 +1,39 @@
+1002
+#include<iostream>
+#include<stdio.h>
+#include<string>
+using namespace std;
+ 
+string sum(string a,string b)//处理大数加法，可以作为模板
+{
+    if(a.length()>b.length())
+        b=string(a.length()-b.length(),'0')+b;
+    else
+        a=string(b.length()-a.length(),'0')+a;
+    int t=0;
+    for(int i=a.length()-1;i>=0;--i)
+    {
+        t+=a[i]-'0'+b[i]-'0';
+        a[i]=t%10+'0';
+        t/=10;
+    }
+    return (t?'1'+a:a);//t不为0，说明有进位
+}
+
+
+int main()
+{
+    int T;
+    string a,b;
+    cin>>T;
+    for(int i=1;i<=T;++i)
+    {
+        cin>>a>>b;
+        cout<<"Case "<<i<<":"<<endl;
+        cout<<a<<" + "<<b<<" = "<<sum(a,b)<<endl;
+        if(i!=T)
+        {
+            cout<<endl;
+        }
+    }
+}

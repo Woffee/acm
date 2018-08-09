@@ -1,0 +1,56 @@
+/*利用买票问题的通项公式
+  f(m,n)= C(m+n,n)-C(m+n,m+1)
+  但需注意的是：这里的人是有序的
+  所以还要再乘以m！n！
+  化简后得到(m+n)!*(m+1-n)/(m+1)
+  */
+#include <iostream>
+using namespace std;
+int a[1000],loc,m,n;//用数组保存大数，loc记录已经使用的位数
+void cheng(int N)
+{
+	loc=0;
+	int t;
+	for(int j=2;j<=N;++j)//计算阶乘(m+n)
+	{
+		if(j!=m+1)//因为后面要除以(m+1),这里直接不成就行了
+		{
+		/**下面是大数乘小数的一个模板*/
+			t=0;//保存每次的进位
+			for(int i=0;i<=loc;++i)
+			{
+				t=a[i]*j+t;
+				a[i]=t%10000;//原数组一个位置保存四位整数，所以模
+				t/=10000;
+			}
+			if(t)
+				a[++loc]=t;
+		/*************/
+		}
+	}
+}
+void print()//输出数组内保存的大数
+{
+	printf("%d",a[loc]);
+	for(int i=loc-1;i>=0;--i)
+		printf("%.4d",a[i]);//设置宽度为，不够补
+	printf("\n");
+}
+int main()
+{
+	int num=0;
+	while(scanf("%d%d",&m,&n)!=EOF&&(m||n))
+	{
+		printf("Test #%d:\n",++num);
+		if(m<n)
+		{
+			printf("0\n");
+			continue;
+		}
+		memset(a,0,sizeof(a));
+		a[0]=(n?m+1-n:1);
+		cheng(m+n);
+		print();
+	}
+    return 0;
+}

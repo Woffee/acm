@@ -1,0 +1,62 @@
+#include<stdio.h>
+#include<string.h>
+#include<stdio.h>
+int g[400][400];//储存邻接矩阵
+int match[400];//Count在Student中的匹配 match[Pi]=Ni
+int mark[400];//每次寻找增广路时走过的足迹
+int p,n;//Count数和Student数
+int Path(int i)
+{
+	int j;
+	for(j=0;j<n;++j)//依次遍历另一半的所有结点
+	{
+		if(g[i][j]&&mark[j])
+		{
+			mark[j]=0;
+			if(match[j]==-1||Path(match[j]))
+			//由于逻辑运算符的短路功能，match[i]==-1的话不会继续递归。
+			//match[i]==-1表示直接找到不在原匹配中的点，结束查找，生成增广路径
+			//递归可以理解为以原匹配中与j匹配的节点为起始，再次查找增广路径
+			{
+				match[j]=i; //将(i,j)加入匹配中，原匹配中的边(match[j],j)从匹配中删除，即取反操作
+				return 1;//找到增广路径
+			}
+		}
+	}
+	return 0;
+}
+int KM()
+{
+	int i,sum=0;//sum为匹配数
+	memset(match,-1,sizeof(match));
+	for(i=0;i<p;++i)
+	{
+		memset(mark,1,sizeof(mark));
+		if(Path(i)) ++sum;
+	}
+	return sum;
+}
+int main()
+{
+	freopen("in.txt","r",stdin);
+	int i,j,t,c;
+	scanf("%d",&t);
+	while(t--)
+	{
+		memset(g,0,sizeof(g));
+		scanf("%d%d",&p,&n);
+		for(i=0;i<p;++i)
+		{
+			scanf("%d",&j);
+			while(j--)
+			{
+				scanf("%d",&c);
+				g[i][c-1]=1;
+			}
+		}
+		if(p==KM()) printf("YES\n");
+		else printf("NO\n");
+	}
+	return 0;
+}
+
